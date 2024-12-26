@@ -1,15 +1,17 @@
-var builder = WebApplication.CreateBuilder(args);
+using App.Aplication.Models;
+using App.Aplication.Services;
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+CardService service = new();
 
-var app = builder.Build();
+Responsible responsible = new(0, "Peter", "123123123");
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+Card myCard = service.CreateCard(Brand.Visa, responsible);
+myCard.Deposit(100);
+myCard.Buy(50);
+myCard.Buy(50);
 
-app.UseRouting();
+string result = @$"
+Saldo: {myCard.Money}:
+Número: {myCard.Number} ";
 
-app.UseAuthorization();
-
-app.Run();
+Console.WriteLine(result);
