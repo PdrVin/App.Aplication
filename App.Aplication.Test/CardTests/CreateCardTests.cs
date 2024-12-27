@@ -58,4 +58,42 @@ public class CreateCardTests
         // Asserts XUnit
         Assert.Equal(800, myCard.Money);
     }
+
+    [Theory]
+    [InlineData("1")]
+    [InlineData("123")]
+    [InlineData("123123")]
+    public void TestValidDocuments(string document)
+    {
+        try
+        {
+            CardService service = new();
+            Responsible responsible = new(1, "Peter", document);
+
+            service.ValidResponsibleCard(responsible);
+        }
+        catch (Exception error)
+        {
+            Assert.Fail(error.Message);
+        }
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(null)]
+    public void TestNotValidDocuments(string document)
+    {
+        try
+        {
+            CardService service = new();
+            Responsible responsible = new(1, "Peter", document);
+
+            service.ValidResponsibleCard(responsible);
+            Assert.Fail("Não esperado");
+        }
+        catch (Exception error)
+        {
+            Assert.Contains("campo obrigatório", error.Message.ToLower());
+        }
+    }
 }
