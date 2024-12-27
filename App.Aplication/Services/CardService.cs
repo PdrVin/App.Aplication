@@ -1,10 +1,18 @@
-using System;
 using App.Aplication.Models;
 
 namespace App.Aplication.Services;
 
 public class CardService
 {
+    private ICardRepository _cardRepository;
+
+    public CardService(ICardRepository cardRepository)
+    {
+        _cardRepository = cardRepository;
+    }
+
+    public CardService() { }
+
     public Card CreateCard(Brand brand, Responsible responsible)
     {
         ValidResponsibleCard(responsible);
@@ -42,5 +50,34 @@ public class CardService
         {
             throw new ArgumentException("Campo Obrigatório: Documento do Responsável");
         }
+    }
+
+    public void Save(Card card)
+    {
+        var cardExistent = _cardRepository.GetByNumber(card.Number);
+        if (cardExistent != null)
+            throw new ArgumentException("Já existe um Cartão com esse número!");
+
+        var idSaved = _cardRepository.Save(card);
+        card.Id = idSaved;
+    }
+}
+
+public interface ICardRepository
+{
+    Card GetByNumber(string number);
+    int Save(Card myCard);
+}
+
+public class CardRepository
+{
+    public Card GetByNumber(string number)
+    {
+        return null;
+    }
+
+    public int Save(Card myCard)
+    {
+        return myCard.Id;
     }
 }

@@ -28,7 +28,7 @@ public class CreateCardTests
 
         // Asserts XUnit
         var exception = Assert.Throws<ArgumentException>(card);
-        Assert.Contains("campo obrigatório", exception.Message.ToLower());
+        Assert.Contains("Campo Obrigatório", exception.Message);
     }
 
     [Fact]
@@ -93,7 +93,7 @@ public class CreateCardTests
         }
         catch (Exception error)
         {
-            Assert.Contains("campo obrigatório", error.Message.ToLower());
+            Assert.Contains("Campo Obrigatório", error.Message);
         }
     }
 }
