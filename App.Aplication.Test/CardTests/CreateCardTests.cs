@@ -30,4 +30,32 @@ public class CreateCardTests
         var exception = Assert.Throws<ArgumentException>(card);
         Assert.Contains("campo obrigatório", exception.Message.ToLower());
     }
+
+    [Fact]
+    public void TestDeposit()
+    {
+        CardService service = new();
+        Responsible responsible = new(1, "Peter", "123123123");
+
+        Card myCard = service.CreateCard(Models.Brand.Mastercard, responsible);
+        myCard.Deposit(1000);
+
+        // Asserts XUnit
+        Assert.Equal(1000, myCard.Money);
+    }
+
+    [Fact]
+    public void TestBuy()
+    {
+        CardService service = new();
+        Responsible responsible = new(1, "Peter", "123123123");
+
+        Card myCard = service.CreateCard(Models.Brand.Visa, responsible);
+        myCard.Deposit(1000);
+        myCard.Buy(100);
+        myCard.Buy(100);
+
+        // Asserts XUnit
+        Assert.Equal(800, myCard.Money);
+    }
 }
