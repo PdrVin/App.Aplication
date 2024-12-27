@@ -11,11 +11,11 @@ public class Card
 
     public void Deposit(decimal value)
     {
-        this.Money += value;
+        Money += value;
     }
 
     public void Buy(decimal value)
     {
-        this.Money -= value;
+        Money -= value;
     }
 }
