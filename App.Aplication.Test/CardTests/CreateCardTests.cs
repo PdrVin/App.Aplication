@@ -17,4 +17,17 @@ public class CreateCardTests
         Assert.NotNull(card.Number);
         Assert.NotEqual("", card.Number);
     }
+
+    [Fact(DisplayName = "Pessoa Deve Possuir Documento")]
+    public void MustReturnErrorPersonWIthoutDoc()
+    {
+        CardService service = new();
+        Responsible responsible = new(1, "Peter", "");
+
+        Func<Card> card = () => service.CreateCard(Models.Brand.Mastercard, responsible);
+
+        // Asserts XUnit
+        var exception = Assert.Throws<ArgumentException>(card);
+        Assert.Contains("campo obrigatório", exception.Message.ToLower());
+    }
 }
